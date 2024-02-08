@@ -12,7 +12,7 @@ export const signup = async (request, response, next) => {
         await newUser.save();
         response.status(201).json("User created successfully");
     } catch (error) {
-        next(error);
+        response.status(500).send({success:false, message:error.message})
     }
 }
 
@@ -20,14 +20,14 @@ export const signin = async (request, response, nest) => {
     const { email, password } = request.body;
     try {
         const validUser = await User.findOne({ email });
-        if (!validUser) return next(errorHandler(404, 'User not found!'))
+        if (!validUser) return response.status(404).send({success:false, message:'User not found!'})
         const validPassword = bcryptjs.compareSync(password, validUser.password);
-        if (!validPassword) return next(errorHandler(401, 'Wrong credentials!'));
+        if (!validPassword) return response.status(401).send({success:false, message:'Wrong credentials!'})
         const token = jwt.sign({id: validUser._id},process.env.JWT_SECRET)
         const {password: pass, ...rest} = validUser._doc;
         response.cookie('access_token', token,{httpOnly:true}).status(200).json(rest);
         
     } catch (error) {
-        next(error);
+        response.status(500).send({success:false, message:error.message})
     }
 }
