@@ -50,13 +50,13 @@ function SignIn() {
         <button disabled={loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-75'>{loading ? 'Loading...' : 'Sign In'}</button>
         <OAuth />
       </form>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 mt-5'>
         <p>Dont have an account?</p>
         <Link to='/sign-up'>
           <span className='text-blue-700'>Sign Up</span>
         </Link>
       </div>
-      {error && <p className='text-red-500'>{error}</p>}
+      {error && <p className='text-red-500 mt-5'>{error}</p>}
 
     </div>
   )
